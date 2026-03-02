@@ -10,6 +10,22 @@ const [limit, setLimit] = useState(5);
     setLimit(Number(e.target.value)); 
   };
 
+const handleDelete = async (id) => {
+  try {
+    const response = await fetch(
+      `https://mimic-server-api.vercel.app/bills/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error("Error deleting bill:", error);
+  }
+};
+
   useEffect(() => {
     async function fetchCustomer() {
       const response = await fetch(
@@ -104,6 +120,12 @@ onChange={(e) => setSearchTerm(e.target.value)}
               ₹{Number(bill.grandTotal).toFixed(2)}
               </p>
               </div>
+
+                <div className="w-full pt-2 flex justify-end items-end ">
+              <button onClick={() => handleDelete(bill.id)} className=" hover:bg-red-400/80 rounded-lg active:scale-95 hover:scale-105 cursor-pointer transition-all duration-300 ease-in-out  py-2 bg-red-400 px-5" type="button" id="btn">
+              <svg className="w-5 h-5 text-black/80 scale-110" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24"><path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6q-.425 0-.712-.288T4 5t.288-.712T5 4h4q0-.425.288-.712T10 3h4q.425 0 .713.288T15 4h4q.425 0 .713.288T20 5t-.288.713T19 6v13q0 .825-.587 1.413T17 21zM17 6H7v13h10zm-7 11q.425 0 .713-.288T11 16V9q0-.425-.288-.712T10 8t-.712.288T9 9v7q0 .425.288.713T10 17m4 0q.425 0 .713-.288T15 16V9q0-.425-.288-.712T14 8t-.712.288T13 9v7q0 .425.288.713T14 17M7 6v13z"/></svg>
+              </button>
+                </div>
           
         {/* card div end below */}
           </div>
